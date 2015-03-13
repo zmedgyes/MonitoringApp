@@ -31,18 +31,12 @@ public class HeatMap{
 	public HeatMap(){
 		path="C:\\Users\\Zsolt\\Pictures\\";
 		Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
-		int i;
-		int j;
 		dimX=d.width;
 		dimY=d.height;
 		
 		data=new double [dimY][dimX];
-	
-		for(j=0;j<dimY;j++){
-			for(i=0;i<dimX;i++){
-				data[j][i]=0;
-			}	
-		}
+		clearTable();
+
 	}
 	
 	public void addPoint(int x, int y){
@@ -183,13 +177,26 @@ public class HeatMap{
         listeners.add(toAdd);
     }
     
+    public void clearTable(){
+		int i;
+		int j;
+		for(j=0;j<dimY;j++){
+			for(i=0;i<dimX;i++){
+				data[j][i]=0;
+			}	
+		}
+    }
+    
     private void setProgress(int progress){
     	for (MyProgressListener hl : listeners)
             hl.progressUpdate(progress);
     }
+    
     private void setProgressText(String text){
     	for (MyProgressListener hl : listeners)
             hl.progressUpdate(text);
     }
+    
+    
 	
 }

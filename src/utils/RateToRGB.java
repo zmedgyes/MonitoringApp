@@ -9,6 +9,7 @@ public class RateToRGB {
 		/*if(rate<100){alpha=0;}
 		else{alpha=10*rate/1023;}*/
 		alpha=10*rate/1023;
+		//alpha=10;
 		if(rate<0){
 			blue=255;
 			red=0;
