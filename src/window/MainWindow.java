@@ -33,6 +33,11 @@ public class MainWindow extends JFrame implements MyProgressListener,ItemListene
 	
 	JTabbedPane cards;
 	
+	int etIndex=0;
+	int eegIndex=0;
+	int clickIndex=0;
+	int mouseIndex=0;
+	
 	public MainWindow(){
 		super("Screen Button");
 		setSize(350,150);
@@ -70,7 +75,7 @@ public class MainWindow extends JFrame implements MyProgressListener,ItemListene
 		configPanel.add(clickCB);
 		configPanel.add(mouseCB);
 		
-		int etIndex=0;
+		
 		
 		defaultPanel.add(startButton);
 		defaultPanel.add(stopButton);
@@ -83,12 +88,6 @@ public class MainWindow extends JFrame implements MyProgressListener,ItemListene
 		mh.heatMap.setInsignificantPercent(10);
 		mh.heatMap.setAveraging(500);
 
-		RepeatAction mouseSensor = new RepeatAction(mh, 100);
-		addSensor(mouseSensor);
-		
-		
-		ClickHandler ch = new ClickHandler();
-		addSensor(ch);
 		
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -130,16 +129,64 @@ public class MainWindow extends JFrame implements MyProgressListener,ItemListene
 		
 		etCB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				RepeatAction gazeSensor=null;
+				//RepeatAction gazeSensor=null;
 				if(etCB.isSelected()){
 					GazeHandler gh =new GazeHandler();
-					gazeSensor = new RepeatAction(gh, 100);
+					RepeatAction gazeSensor = new RepeatAction(gh, 100);
 					addSensor(gazeSensor);
-					//etIndex=sensorList.indexOf(gazeSensor);
+					etIndex=sensorList.indexOf(gazeSensor);
 				}
 				else{
 					System.out.println("etremoved");
 					sensorList.remove(etIndex);
+				}
+				
+			}
+			
+		});		
+		
+		eegCB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(eegCB.isSelected()){
+					MindwaveHandler mindwaveSensor =new MindwaveHandler();
+					addSensor(mindwaveSensor);
+					eegIndex=sensorList.indexOf(mindwaveSensor);
+				}
+				else{
+					System.out.println("eegremoved");
+					sensorList.remove(eegIndex);
+				}
+				
+			}
+			
+		});
+		
+		clickCB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(clickCB.isSelected()){
+					ClickHandler ch = new ClickHandler();
+					addSensor(ch);
+					clickIndex=sensorList.indexOf(ch);
+				}
+				else{
+					System.out.println("clickremoved");
+					sensorList.remove(clickIndex);
+				}
+				
+			}
+			
+		});
+		
+		mouseCB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(mouseCB.isSelected()){
+					RepeatAction mouseSensor = new RepeatAction(mh, 100);
+					addSensor(mouseSensor);
+					mouseIndex=sensorList.indexOf(mouseSensor);
+				}
+				else{
+					System.out.println("mouseremoved");
+					sensorList.remove(mouseIndex);
 				}
 				
 			}

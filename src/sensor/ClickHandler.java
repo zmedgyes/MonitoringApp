@@ -8,6 +8,8 @@ import de.ksquared.system.mouse.MouseEvent;
 public class ClickHandler implements Sensor{
 	Thread t;
 	private boolean safetyFlag;
+	private GlobalMouseListener gml;
+	private MouseAdapter ma;
 	public ClickHandler(){
 		safetyFlag=true;
 	}
@@ -15,13 +17,15 @@ public class ClickHandler implements Sensor{
 		if(safetyFlag){
 			t = new Thread(){
 		  			public void run(){
-		  				new GlobalMouseListener().addMouseListener(new MouseAdapter() {
+		  				gml=new GlobalMouseListener();
+		  				ma=new MouseAdapter() {
 		  					@Override public void mousePressed(MouseEvent event){ 
 		  						System.out.println(event); 
 		  					}
 		  					//@Override public void mouseReleased(MouseEvent event)  { System.out.println(event); }
 		  					//@Override public void mouseMoved(MouseEvent event) {System.out.println(event);}
-		  				});
+		  				};
+		  				gml.addMouseListener(ma);
 					}
 			};
 		t.start();
@@ -31,6 +35,7 @@ public class ClickHandler implements Sensor{
 	
 	public void stop(){
 		if(!safetyFlag){
+			gml.removeMouseListener(ma);
 			t.interrupt();
 			safetyFlag=true;
 		}
